@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Load the Paper.js library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../lib/paper.js"></script>
+<!-- Define inlined PaperScript associate it with myCanvas -->
+<script type="text/paperscript" src="face.js" canvas="faceCanvas"></script>
+<script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+    <canvas  style="height: 92%;width: 92%;" id="faceCanvas" resize ></canvas>
+  <br>
+  <button id='refresh'>Refresh</button>
+  <button id='pause' style="background-color: red;">Pause</button>
+
+
+	<h1 style="padding-top: 100px;text-align: left;">Training</h1>
+
+	<div>
+
+
+	  	    <label for="fname">Question</label>
+	    <input type="text" id="question" name="firstname" placeholder="Question..">
+
+	    <label for="lname">Response</label>
+	    <input type="text" id="response" name="lastname" placeholder="Response..">
+
+
+	    <p id="checkFields" style="color: red;display: none">Please fill out all required fields ! </p>
+        <input id='send' type="submit" value="Submit">
+
+	</div>
+    <script>
+
+
+        $( "#send" ).click(function() {
+          const question = $('#question').val();
+          const response = $('#response').val();
+          const questionId = "question"+Math.random();
+          $('#name').val("");
+          $('#question').val("");
+          $('#response').val("");
+
+                $('#checkFields').hide();
+                if(true){//name.length==8 && question.length>2 && response.length>2){
+  var dataA = {
+  "contexts": [
+  ],
+  "events": [],
+  "fallbackIntent": false,
+  "name": questionId+"",
+  "priority": 500000,
+  "responses": [
+    {
+      "action": "add.list",
+      "affectedContexts": [],
+      "defaultResponsePlatforms": {
+        "google": true
+      },
+      "messages": [
+        {
+          "platform": "google",
+          "textToSpeech": question+"" ,
+          "type": "simple_response"
+        },
+        {
+          "speech": response+"",
+          "type": 0
+        }
+      ],
+      "parameters": [],
+      "resetContexts": false
+    }
+  ],
+  "templates": [
+    question+""
+  ],
+  "userSays": [
+    {
+      "count": 0,
+      "data": [{text:question+""}]
+    }
+  ],
+  "webhookForSlotFilling": false,
+  "webhookUsed": false
+};
+                $.ajax({
+                  url: 'https://api.dialogflow.com/api/intents?lang=en',
+                  type: 'post',
+                  data:JSON.stringify(dataA),
+                  headers: {
+                          'Authorization': 'Bearer 09659f62f9da4255a6f59e0f0f5e409f',
+                          'Content-Type': 'application/json'
+                  },
+                  success: function (data) {
+                      //alert(data);
+                      alert('Question added with success');
+                  },
+                  error: function (data){
+                    alert("Outlet Creation Failed, please try again.");
+                    //alert(JSON.stringify(data));
+                  }
+
+              });
+
+
+          }else{
+            alert('ops');
+              $('#checkFields').show();
+          }
+
+
+        });
+
+        //console.log('END');
+    </script>
+
+<style>
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/script.js"></script>
+<style>
+
+
+</style>
+</body>
+
+</html>
